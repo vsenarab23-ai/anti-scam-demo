@@ -1,1 +1,74 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bonus Demo</title>
+<style>
+body{margin:0;font-family:Arial;background:#eef2ff;min-height:100vh;display:grid;place-items:center}
+.card{background:white;padding:30px;border-radius:20px;width:min(90%,420px);box-shadow:0 15px 40px #0002;text-align:center}
+h1{font-size:34px}
+p{color:#64748b;line-height:1.5}
+input,button{width:100%;padding:14px;margin-top:12px;border-radius:10px;box-sizing:border-box}
+input{border:1px solid #ccc;font-size:16px}
+button{border:0;background:#6366f1;color:white;font-weight:bold;font-size:16px}
+.badge{display:inline-block;background:#fee2e2;color:#b91c1c;padding:7px 12px;border-radius:20px;font-weight:bold}
+.prize{font-size:65px}
+.notice{margin-top:15px;background:#fff7ed;padding:12px;border-radius:10px;color:#9a3412;font-size:13px}
+.hidden{display:none}
+</style>
+</head>
 
+<body>
+<div class="card">
+
+<div id="offer">
+<div class="badge">УЧЕБНАЯ ДЕМОНСТРАЦИЯ</div>
+<h1>🎁 SUPER BONUS</h1>
+<div class="prize">🎁</div>
+
+<p>
+Демонстрация страницы с подозрительным
+«бонусным предложением».
+</p>
+
+<form id="form">
+<input id="name" placeholder="Тестовое имя" required>
+<input id="email" type="email" placeholder="test@example.com" required>
+<button>ПОЛУЧИТЬ БОНУС</button>
+</form>
+
+<div class="notice">
+Не вводите настоящие пароли, номера карт
+или другие секретные данные.
+</div>
+</div>
+
+<div id="done" class="hidden">
+<h1>🔍 Стоп!</h1>
+<p>Это была учебная демонстрация.</p>
+<p id="message"></p>
+<button onclick="location.reload()">Вернуться</button>
+</div>
+
+</div>
+
+<script>
+document.getElementById("form").addEventListener("submit",async function(e){
+  e.preventDefault();
+
+  const response=await fetch("/api/demo",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:"{}"
+  });
+
+  const data=await response.json();
+
+  document.getElementById("offer").classList.add("hidden");
+  document.getElementById("done").classList.remove("hidden");
+  document.getElementById("message").textContent=data.message;
+});
+</script>
+</body>
+</html>
